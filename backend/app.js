@@ -4,7 +4,6 @@ import authRoutes from "./routes/auth.routes.js";
 import jokeRoutes from "./routes/joke.routes.js";
 
 
-
 const app = express();
 
 app.use(express.json());
@@ -41,7 +40,7 @@ const startServer = async () => {
   }
 };
 
-startServer();
+await startServer();
 
  app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
