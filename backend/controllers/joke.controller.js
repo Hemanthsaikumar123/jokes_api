@@ -1,5 +1,19 @@
 import { getJokesAdvanced } from "../services/joke.service.js";
 import redisClient from "../config/redis.js";
+import { getRandomJokeFromDB } from "../services/joke.service.js";
+
+export const getRandomJoke = async (req, res) => {
+  try {
+    const joke = await getRandomJokeFromDB();
+
+    res.json({
+      joke: joke.content,
+      category: joke.category
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch random joke" });
+  }
+};
 
 export const getJokes = async (req, res) => {
   try {

@@ -1,5 +1,15 @@
 import pool from "../config/db.js";
 
+
+export const getRandomJokeFromDB = async () => {
+  const result = await pool.query(
+    "SELECT * FROM jokes ORDER BY RANDOM() LIMIT 1"
+  );
+  return result.rows[0];
+};
+
+
+
 export const getJokesAdvanced = async ({ category, limit, sortBy, order }) => {
   let query = "SELECT * FROM jokes";
   const values = [];
