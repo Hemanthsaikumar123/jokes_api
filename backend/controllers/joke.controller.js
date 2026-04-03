@@ -1,14 +1,29 @@
+import {
+  getRandomJokeFromDB,
+  getJokesByCategoryFromDB
+} from "../services/joke.service.js";
+
 export const getRandomJoke = async (req, res) => {
-  const jokes = [
-    "Why do programmers prefer dark mode? Because light attracts bugs 🐛",
-    "Why did the developer go broke? Because he used up all his cache 💸",
-    "Why do Java developers wear glasses? Because they don’t C# 🤓"
-  ];
+  try {
+    const joke = await getRandomJokeFromDB();
 
-  const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+    res.json({
+      joke: joke.content,
+      category: joke.category
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch joke" });
+  }
+};
 
-  res.json({
-    joke: randomJoke,
-    user: req.user.email   // just to verify auth works
-  });
+export const getJokesByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+
+    const jokes = await getJokesByCategoryFromDB(category);
+
+    res.json(jokes);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch jokes" });
+  }
 };
